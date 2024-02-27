@@ -9,7 +9,8 @@ import java.util.Scanner;
 
 public class Menu {
 
-    private final String FORMAT = "dd MM yyyy";
+    public final String INPUT_DATA_FORMAT = "dd MM yyyy";
+    public final String OUTPUT_DATA_FORMAT = "dd-MM-yyyy";
     private int budget, numberOfPassengers, distance;
 
     Vehicle bike = new Bike("BMX",
@@ -94,8 +95,6 @@ public class Menu {
 
     private void holdVehicle(Vehicle vehicle) {
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(FORMAT);
-
         System.out.println("""
                 1) Указать дату до которой планируется взять т/с в аренду
                 2) Взять т/с на сутки
@@ -106,9 +105,10 @@ public class Menu {
         switch (Integer.parseInt(in.nextLine())) {
             case 1:
                 System.out.println("Введите дату, формат ввода даты 'DD mm YYYY'");
-                LocalDate date = LocalDate.parse(in.nextLine(), formatter);
+                LocalDate date = LocalDate.parse(in.nextLine(), DateTimeFormatter.ofPattern(INPUT_DATA_FORMAT));
                 int price = (int) vehicle.getTotalPrice(date);
                 System.out.printf("В таком случае, вы заплатите за аренду %d денег%n", price);
+                System.out.println(date.format(DateTimeFormatter.ofPattern(OUTPUT_DATA_FORMAT)));
                 break;
             case 2:
                 System.out.println("Это будет вам стоить " +
