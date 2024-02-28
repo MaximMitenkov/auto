@@ -2,7 +2,7 @@ package auto.entity;
 
 public class Car extends FuelableVehicle {
     public Car(String model,
-               double rentPrice,
+               double rentPrice, //цена аренды за раз
                double oneHourRentPrice,
                int maxNumberOfPassengers,
                double maxSpeed,
