@@ -1,38 +1,35 @@
 package auto.menu;
 
 import auto.entity.*;
-
-import java.time.Duration;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class Menu {
 
-    public final String INPUT_DATA_FORMAT = "dd MM yyyy";
-    public final String OUTPUT_DATA_FORMAT = "dd-MM-yyyy";
+    protected final static String INPUT_DATA_FORMAT = "dd MM yyyy";
+    protected final static String OUTPUT_DATA_FORMAT = "dd-MM-yyyy";
     private int budget, numberOfPassengers, distance;
 
-    Vehicle bike = new Bike("BMX",
+    private final Vehicle bike = new Bike("BMX",
             100, 10, 1, 25);
-    Vehicle truck = new Car("Ford Transit",
+    private final Vehicle truck = new Car("Ford Transit",
             500, 100, 8, 100, 150);
-    Vehicle car = new Car("VAZ-2104",
+    private final Vehicle car = new Car("VAZ-2104",
             400, 80,
             4,
             120,
             100);
-    Vehicle motocycle = new Motobike("Ural",
+    private final Vehicle motocycle = new Motobike("Ural",
             300, 50, 2, 80, 50);
 
-    VehicleList vehicles = new VehicleList();
+    protected VehicleList vehicles = new VehicleList(bike, truck, car, motocycle);
+
     public void start() {
-        vehicles.add(truck, car, motocycle, bike);
+        VehicleManager vehicleManager = new VehicleManager(vehicles);
 
         Scanner in = new Scanner(System.in);
         boolean doCycle = true;
 
-        fillInTravelData(); // кажется лишнее, раз меню есть ниже
+        fillInTravelData();
 
         while (doCycle) {
             System.out.println("\n\n\nВыберите нужную функцию");
@@ -67,7 +64,7 @@ public class Menu {
                     in.nextLine();
                     break;
                 case 5:
-                    holdVehicle(chooseVehicle());
+                    vehicleManager.holdVehicle(vehicleManager.chooseVehicle());
                     break;
                 case 0:
                     doCycle = false;
@@ -91,46 +88,5 @@ public class Menu {
         distance = Integer.parseInt(in.nextLine());
 
         System.out.println("Данные успешно записаны");
-    }
-
-    private void holdVehicle(Vehicle vehicle) {
-
-        System.out.println("""
-                1) Указать дату до которой планируется взять т/с в аренду
-                2) Взять т/с на сутки
-                3) Взять т/с на 12 часов
-                4) Указать количество часов, на которое планируется взять т/с
-                """);
-        Scanner in = new Scanner(System.in);
-        switch (Integer.parseInt(in.nextLine())) {
-            case 1:
-                System.out.println("Введите дату, формат ввода даты 'DD mm YYYY'");
-                LocalDate date = LocalDate.parse(in.nextLine(), DateTimeFormatter.ofPattern(INPUT_DATA_FORMAT));
-                int price = (int) vehicle.getTotalPrice(date);
-                System.out.printf("В таком случае, вы заплатите за аренду %d денег%n", price);
-                System.out.println(date.format(DateTimeFormatter.ofPattern(OUTPUT_DATA_FORMAT)));
-                break;
-            case 2:
-                System.out.println("Это будет вам стоить " +
-                        vehicle.getOneHourRentPrice() * 16 + vehicle.getMomentRentPrice());
-                break;
-            case 3:
-                System.out.println("Это будет вам стоить " +
-                        (vehicle.getOneHourRentPrice() * 12 + vehicle.getMomentRentPrice()));
-                break;
-            case 4:
-                System.out.println("Введите количество часов для аренды");
-                double priceHours = vehicle.calculatePriceAsHours(Duration.ofHours(Integer.parseInt(in.nextLine())));
-                System.out.println("Вам будет это стоить " + priceHours);
-            default: break;
-        }
-    }
-
-    private Vehicle chooseVehicle() {
-        Scanner in = new Scanner(System.in);
-        vehicles.showWithId();
-        System.out.println("Напишите номер выбранного вами транспорта");
-
-        return vehicles.getVehicleById(Integer.parseInt(in.nextLine()));
     }
 }

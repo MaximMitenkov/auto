@@ -1,10 +1,15 @@
 package auto.entity;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class VehicleList {
+
     private final ArrayList<Vehicle> vehicles = new ArrayList<>();
+    public VehicleList(Vehicle... vehicles) {
+        this.vehicles.addAll(Arrays.asList(vehicles));
+    }
     public Vehicle getVehicleById(int id) {
         return vehicles.get(id);
     }
