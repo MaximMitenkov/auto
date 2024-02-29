@@ -1,6 +1,8 @@
 package auto.menu;
 
 import auto.entity.*;
+import net.datafaker.Faker;
+
 import java.util.Scanner;
 
 public class Menu {
@@ -31,7 +33,16 @@ public class Menu {
 
         fillInTravelData();
 
+        Faker faker = new Faker();
+        String randomName = faker.name().fullName().toUpperCase();
+        String randomCar = vehicles.getVehicleById(faker.number().numberBetween(0, vehicles.getLength())).getModel();
+
         while (doCycle) {
+            System.out.printf("""
+                    Прошлый красавчик %s
+                    Уже забрал свой %s
+                    Выбирай и ты!%n
+                    """, randomName, randomCar);
             System.out.println("\n\n\nВыберите нужную функцию");
             System.out.println("""
                     1) Показать список всех автомобилей

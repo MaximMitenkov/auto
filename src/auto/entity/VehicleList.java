@@ -2,7 +2,6 @@ package auto.entity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class VehicleList {
 
@@ -14,8 +13,8 @@ public class VehicleList {
         return vehicles.get(id);
     }
 
-    public void add(Vehicle... vehicles) {
-        this.vehicles.addAll(new ArrayList<>(List.of(vehicles)));
+    public int getLength() {
+        return vehicles.toArray().length;
     }
 
     public void show() {
