@@ -7,8 +7,8 @@ import java.util.Scanner;
 
 public class Menu {
 
-    protected final static String INPUT_DATA_FORMAT = "dd MM yyyy";
-    protected final static String OUTPUT_DATA_FORMAT = "dd-MM-yyyy";
+    protected static final String INPUT_DATA_FORMAT = "dd MM yyyy";
+    protected static final String OUTPUT_DATA_FORMAT = "dd-MM-yyyy";
     private int budget, numberOfPassengers, distance;
 
     private final Vehicle bike = new Bike("BMX",
