@@ -1,5 +1,6 @@
 package auto.menu;
 
+import auto.dao.Storage;
 import auto.entity.*;
 import net.datafaker.Faker;
 
@@ -10,23 +11,18 @@ public class Menu {
     protected static final String INPUT_DATA_FORMAT = "dd MM yyyy";
     protected static final String OUTPUT_DATA_FORMAT = "dd-MM-yyyy";
     private int budget, numberOfPassengers, distance;
+    private final Storage storage;
 
-    private final Vehicle bike = new Bike("BMX",
-            100, 10, 1, 25);
-    private final Vehicle truck = new Car("Ford Transit",
-            500, 100, 8, 100, 150);
-    private final Vehicle car = new Car("VAZ-2104",
-            400, 80,
-            4,
-            120,
-            100);
-    private final Vehicle motocycle = new Motobike("Ural",
-            300, 50, 2, 80, 50);
+    protected VehicleList vehicles = new VehicleList();
+    private final VehicleManager vehicleManager = new VehicleManager(null);
 
-    protected VehicleList vehicles = new VehicleList(bike, truck, car, motocycle);
+    public Menu(Storage storage) {
+        this.storage = storage;
+    }
 
     public void start() {
-        VehicleManager vehicleManager = new VehicleManager(vehicles);
+
+        chooseRentalPoint();
 
         Scanner in = new Scanner(System.in);
         boolean doCycle = true;
@@ -35,7 +31,7 @@ public class Menu {
 
         Faker faker = new Faker();
         String randomName = faker.name().fullName().toUpperCase();
-        String randomCar = vehicles.getVehicleById(faker.number().numberBetween(0, vehicles.getLength())).getModel();
+        String randomCar = faker.vehicle().model();
 
         while (doCycle) {
             System.out.printf("""
@@ -57,9 +53,10 @@ public class Menu {
 
             int choice = Integer.parseInt(in.nextLine());
 
+            //TODO сделать свич красивее
             switch (choice) {
                 case 1:
-                    vehicles.show();
+                    vehicles.showWithId();
                     in.nextLine();
                     break;
                 case 2:
@@ -77,6 +74,9 @@ public class Menu {
                 case 5:
                     vehicleManager.holdVehicle(vehicleManager.chooseVehicle());
                     break;
+                case 6:
+                    vehicles = chooseRentalPoint().getVehicles();
+                    break;
                 case 0:
                     doCycle = false;
                     break;
@@ -86,6 +86,7 @@ public class Menu {
         }
     }
 
+    //TODO Вынести в класс авторизации
     private void fillInTravelData() {
         Scanner in = new Scanner(System.in);
 
@@ -99,5 +100,15 @@ public class Menu {
         distance = Integer.parseInt(in.nextLine());
 
         System.out.println("Данные успешно записаны");
+    }
+
+    private RentalPoint chooseRentalPoint() {
+        System.out.println("Выберите ближайшую к вам точку аренды, чтобы посмотреть доступный транспорт");
+        storage.showPresentation();
+        Scanner in = new Scanner(System.in);
+        int i = Integer.parseInt(in.nextLine());
+        vehicles = storage.getRentalPointById(i).getVehicles();
+        vehicleManager.setVehicles(vehicles);
+        return storage.getRentalPointById(i);
     }
 }

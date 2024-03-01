@@ -5,12 +5,12 @@ import auto.entity.RentalPoint;
 import java.util.*;
 
 public class Storage {
-    private final Map<Integer, RentalPoint> rentalPoints = new HashMap<Integer, RentalPoint>();
+    private final Map<Integer, RentalPoint> rentalPoints = new HashMap<>();
     private int counter;
 
-    public Storage(RentalPoint... rentalPoints) {
+    public Storage(ArrayList<RentalPoint> rentalPoints) {
         this.counter = 0;
-        Arrays.asList(rentalPoints).forEach((a) -> Storage.this.rentalPoints.put(counter++, a));
+        rentalPoints.forEach((a) -> Storage.this.rentalPoints.put(counter++, a));
     }
 
     public RentalPoint getRentalPointById(int index) {
@@ -20,5 +20,10 @@ public class Storage {
     public Integer add(RentalPoint rentalPoint) {
         this.rentalPoints.put(counter, rentalPoint);
         return counter++;
+    }
+
+    //TODO нужно убрать из DAO всё, кроме операций с данными
+    public void showPresentation() {
+        rentalPoints.forEach((a, b) -> b.showAddress(a));
     }
 }

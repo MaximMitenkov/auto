@@ -60,4 +60,7 @@ public class VehicleManager {
         return vehicles.getVehicleById(Integer.parseInt(in.nextLine()));
     }
 
+    public void setVehicles(VehicleList vehicles) {
+        this.vehicles = vehicles;
+    }
 }
