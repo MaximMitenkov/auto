@@ -8,13 +8,13 @@ import java.util.Scanner;
 
 public class Menu {
 
-    protected static final String INPUT_DATA_FORMAT = "dd MM yyyy";
-    protected static final String OUTPUT_DATA_FORMAT = "dd-MM-yyyy";
+    protected static final String INPUT_DATE_FORMAT = "dd MM yyyy";
+    protected static final String OUTPUT_DATE_FORMAT = "dd-MM-yyyy";
     private int budget, numberOfPassengers, distance;
     private final Storage storage;
 
     protected VehicleList vehicles = new VehicleList();
-    private final VehicleManager vehicleManager = new VehicleManager(null);
+    private final VehicleManager vehicleManager = new VehicleManager();
 
     public Menu(Storage storage) {
         this.storage = storage;
@@ -53,35 +53,26 @@ public class Menu {
 
             int choice = Integer.parseInt(in.nextLine());
 
-            //TODO сделать свич красивее
             switch (choice) {
-                case 1:
+                case 1 -> {
                     vehicles.showWithId();
                     in.nextLine();
-                    break;
-                case 2:
+                }
+                case 2 -> {
                     vehicles.printBestVariant(numberOfPassengers, budget, distance);
                     System.out.println();
-                    break;
-                case 3:
+                }
+                case 3 -> {
                     vehicles.show(vehicles.sortPossibleVehicles(numberOfPassengers, budget, distance));
                     in.nextLine();
-                    break;
-                case 4:
+                }
+                case 4 -> {
                     fillInTravelData();
                     in.nextLine();
-                    break;
-                case 5:
-                    vehicleManager.holdVehicle(vehicleManager.chooseVehicle());
-                    break;
-                case 6:
-                    vehicles = chooseRentalPoint().getVehicles();
-                    break;
-                case 0:
-                    doCycle = false;
-                    break;
-                default:
-                    break;
+                }
+                case 5 -> vehicleManager.holdVehicle(vehicleManager.chooseVehicle());
+                case 6 -> vehicles = chooseRentalPoint().getVehicles();
+                case 0 -> doCycle = false;
             }
         }
     }
