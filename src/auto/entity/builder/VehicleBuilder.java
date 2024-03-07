@@ -3,11 +3,10 @@ package auto.entity.builder;
 import auto.entity.Bike;
 import auto.entity.Car;
 import auto.entity.Motobike;
-import auto.generator.VehicleGenerator;
 
 public class VehicleBuilder {
 
-    private String model = "Unknown";
+    private final String model;
     private int maxNumberOfPassengers = 0;
     private double maxSpeed = 1;
     private double momentRentPrice = 100;
@@ -18,27 +17,27 @@ public class VehicleBuilder {
         this.model = model;
     }
 
-    public VehicleBuilder withCapasity(int maxNumberOfPassengers) {
+    public VehicleBuilder capasity(int maxNumberOfPassengers) {
         this.maxNumberOfPassengers = maxNumberOfPassengers;
         return this;
     }
 
-    public VehicleBuilder withMaxSpeed(double maxSpeed) {
+    public VehicleBuilder maxSpeed(double maxSpeed) {
         this.maxSpeed = maxSpeed;
         return this;
     }
 
-    public VehicleBuilder withMomentRentPrice(double momentRentPrice) {
+    public VehicleBuilder momentRentPrice(double momentRentPrice) {
         this.momentRentPrice = momentRentPrice;
         return this;
     }
 
-    public VehicleBuilder withHourRentPrice(double oneHourRentPrice) {
+    public VehicleBuilder hourRentPrice(double oneHourRentPrice) {
         this.oneHourRentPrice = oneHourRentPrice;
         return this;
     }
 
-    public VehicleBuilder withFuelPricePerKilometer(double fuelPricePerKilometer) {
+    public VehicleBuilder fuelPricePerKilometer(double fuelPricePerKilometer) {
         this.fuelPricePerKilometer = fuelPricePerKilometer;
         return this;
     }
