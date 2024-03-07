@@ -1,6 +1,6 @@
 package auto.menu;
 
-import auto.entity.Vehicle;
+import auto.entity.abstractEntity.Vehicle;
 import auto.entity.VehicleList;
 
 import java.time.Duration;
@@ -8,8 +8,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
-import static auto.menu.Menu.INPUT_DATA_FORMAT;
-import static auto.menu.Menu.OUTPUT_DATA_FORMAT;
+import static auto.menu.Menu.INPUT_DATE_FORMAT;
+import static auto.menu.Menu.OUTPUT_DATE_FORMAT;
 
 public class VehicleManager {
 
@@ -17,6 +17,10 @@ public class VehicleManager {
 
     protected VehicleManager(VehicleList vehicles) {
         this.vehicles = vehicles;
+    }
+
+    public VehicleManager() {
+
     }
 
     protected void holdVehicle(Vehicle vehicle) {
@@ -31,10 +35,10 @@ public class VehicleManager {
         switch (Integer.parseInt(in.nextLine())) {
             case 1:
                 System.out.println("Введите дату, формат ввода даты 'DD mm YYYY'");
-                LocalDate date = LocalDate.parse(in.nextLine(), DateTimeFormatter.ofPattern(INPUT_DATA_FORMAT));
+                LocalDate date = LocalDate.parse(in.nextLine(), DateTimeFormatter.ofPattern(INPUT_DATE_FORMAT));
                 int price = (int) vehicle.getTotalPrice(date);
                 System.out.printf("В таком случае, вы заплатите за аренду %d денег%n", price);
-                System.out.println(date.format(DateTimeFormatter.ofPattern(OUTPUT_DATA_FORMAT)));
+                System.out.println(date.format(DateTimeFormatter.ofPattern(OUTPUT_DATE_FORMAT)));
                 break;
             case 2:
                 System.out.println("Это будет вам стоить " +
@@ -60,4 +64,7 @@ public class VehicleManager {
         return vehicles.getVehicleById(Integer.parseInt(in.nextLine()));
     }
 
+    public void setVehicles(VehicleList vehicles) {
+        this.vehicles = vehicles;
+    }
 }

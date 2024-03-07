@@ -1,5 +1,6 @@
 package auto.menu;
 
+import auto.dao.Storage;
 import auto.entity.*;
 import net.datafaker.Faker;
 
@@ -7,26 +8,21 @@ import java.util.Scanner;
 
 public class Menu {
 
-    protected final static String INPUT_DATA_FORMAT = "dd MM yyyy";
-    protected final static String OUTPUT_DATA_FORMAT = "dd-MM-yyyy";
+    protected static final String INPUT_DATE_FORMAT = "dd MM yyyy";
+    protected static final String OUTPUT_DATE_FORMAT = "dd-MM-yyyy";
     private int budget, numberOfPassengers, distance;
+    private final Storage storage;
 
-    private final Vehicle bike = new Bike("BMX",
-            100, 10, 1, 25);
-    private final Vehicle truck = new Car("Ford Transit",
-            500, 100, 8, 100, 150);
-    private final Vehicle car = new Car("VAZ-2104",
-            400, 80,
-            4,
-            120,
-            100);
-    private final Vehicle motocycle = new Motobike("Ural",
-            300, 50, 2, 80, 50);
+    protected VehicleList vehicles = new VehicleList();
+    private final VehicleManager vehicleManager = new VehicleManager();
 
-    protected VehicleList vehicles = new VehicleList(bike, truck, car, motocycle);
+    public Menu(Storage storage) {
+        this.storage = storage;
+    }
 
     public void start() {
-        VehicleManager vehicleManager = new VehicleManager(vehicles);
+
+        chooseRentalPoint();
 
         Scanner in = new Scanner(System.in);
         boolean doCycle = true;
@@ -35,7 +31,7 @@ public class Menu {
 
         Faker faker = new Faker();
         String randomName = faker.name().fullName().toUpperCase();
-        String randomCar = vehicles.getVehicleById(faker.number().numberBetween(0, vehicles.getLength())).getModel();
+        String randomCar = faker.vehicle().model();
 
         while (doCycle) {
             System.out.printf("""
@@ -58,34 +54,30 @@ public class Menu {
             int choice = Integer.parseInt(in.nextLine());
 
             switch (choice) {
-                case 1:
-                    vehicles.show();
+                case 1 -> {
+                    vehicles.showWithId();
                     in.nextLine();
-                    break;
-                case 2:
+                }
+                case 2 -> {
                     vehicles.printBestVariant(numberOfPassengers, budget, distance);
                     System.out.println();
-                    break;
-                case 3:
+                }
+                case 3 -> {
                     vehicles.show(vehicles.sortPossibleVehicles(numberOfPassengers, budget, distance));
                     in.nextLine();
-                    break;
-                case 4:
+                }
+                case 4 -> {
                     fillInTravelData();
                     in.nextLine();
-                    break;
-                case 5:
-                    vehicleManager.holdVehicle(vehicleManager.chooseVehicle());
-                    break;
-                case 0:
-                    doCycle = false;
-                    break;
-                default:
-                    break;
+                }
+                case 5 -> vehicleManager.holdVehicle(vehicleManager.chooseVehicle());
+                case 6 -> vehicles = chooseRentalPoint().getVehicles();
+                case 0 -> doCycle = false;
             }
         }
     }
 
+    //TODO Вынести в класс авторизации
     private void fillInTravelData() {
         Scanner in = new Scanner(System.in);
 
@@ -99,5 +91,15 @@ public class Menu {
         distance = Integer.parseInt(in.nextLine());
 
         System.out.println("Данные успешно записаны");
+    }
+
+    private RentalPoint chooseRentalPoint() {
+        System.out.println("Выберите ближайшую к вам точку аренды, чтобы посмотреть доступный транспорт");
+        storage.showPresentation();
+        Scanner in = new Scanner(System.in);
+        int i = Integer.parseInt(in.nextLine());
+        vehicles = storage.getRentalPointById(i).getVehicles();
+        vehicleManager.setVehicles(vehicles);
+        return storage.getRentalPointById(i);
     }
 }

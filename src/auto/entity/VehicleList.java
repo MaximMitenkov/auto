@@ -1,5 +1,8 @@
 package auto.entity;
 
+import auto.entity.abstractEntity.FuelableVehicle;
+import auto.entity.abstractEntity.Vehicle;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -15,6 +18,9 @@ public class VehicleList {
 
     public int getLength() {
         return vehicles.toArray().length;
+    }
+    public void add(Vehicle vehicle) {
+        vehicles.add(vehicle);
     }
 
     public void show() {
