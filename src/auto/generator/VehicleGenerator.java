@@ -20,13 +20,10 @@ public class VehicleGenerator {
         };
     }
 
-    public RentalPoint generateEmptyRentalPoint() {
-        return new RentalPoint(new VehicleList(), faker.address().streetAddressNumber());
-    }
-
     public RentalPoint generateRentalPoint() {
         RentalPoint rentalPoint = new RentalPoint();
-        for (int i = 0; i < random.nextInt(3,7); i++) {
+        int numberOfVehicles = faker.random().nextInt(3, 7);
+        for (int i = 0; i < numberOfVehicles; i++) {
             rentalPoint.addVehicle(generateRandomVehicle());
         }
         return rentalPoint;

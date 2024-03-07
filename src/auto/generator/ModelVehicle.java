@@ -1,6 +1,5 @@
 package auto.generator;
 
-import net.datafaker.Faker;
 import net.datafaker.providers.base.AbstractProvider;
 import net.datafaker.providers.base.BaseProviders;
 
@@ -19,11 +18,11 @@ public class ModelVehicle extends AbstractProvider<BaseProviders> {
     }
 
     public String motobikeModel() {
-        return MOTOBIKE_MODELS[faker.number().numberBetween(0, CAR_MODELS.length)];
+        return MOTOBIKE_MODELS[faker.number().numberBetween(0, MOTOBIKE_MODELS.length)];
     }
 
     public String bikeModel() {
-        return BIKE_MODELS[faker.number().numberBetween(0, CAR_MODELS.length)];
+        return BIKE_MODELS[faker.number().numberBetween(0, BIKE_MODELS.length)];
     }
 
 }
