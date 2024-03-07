@@ -1,14 +1,15 @@
 package auto.generator;
 
 import auto.entity.*;
-import net.datafaker.Faker;
+import auto.entity.abstractEntity.Vehicle;
+import auto.entity.builder.VehicleBuilder;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 public class VehicleGenerator {
 
-    private final Faker faker = new Faker();
+    private final CustomFaker faker = new CustomFaker();
     private final Random random = new Random();
 
     private Vehicle generateRandomVehicle() {
@@ -39,34 +40,33 @@ public class VehicleGenerator {
         return list;
     }
 
-    //TODO добавить свои листы с машинами
     private Car generateCar() {
-        return new Car(
-                faker.vehicle().model(),
-                random.nextDouble(500, 1000),
-                random.nextDouble(100, 200),
-                faker.number().numberBetween(2,4),
-                random.nextDouble(60, 120),
-                random.nextDouble(20,60));
+        return new VehicleBuilder(faker.customVehicle().carModel())
+                .withCapasity(random.nextInt(2, 6))
+                .withMaxSpeed(random.nextDouble(80, 120))
+                .withFuelPricePerKilometer(random.nextDouble(15, 50))
+                .withMomentRentPrice(random.nextDouble(300, 700))
+                .withHourRentPrice(random.nextDouble(100, 250))
+                .buildCar();
     }
 
     private Motobike generateMotobike() {
-        return new Motobike(
-                faker.vehicle().model(),
-                random.nextDouble(300, 600),
-                random.nextDouble(50, 150),
-                faker.number().numberBetween(1,3),
-                random.nextDouble(60, 100),
-                random.nextDouble(20,60));
+        return new VehicleBuilder(faker.customVehicle().motobikeModel())
+                .withCapasity(random.nextInt(1, 3))
+                .withMaxSpeed(random.nextDouble(60, 80))
+                .withFuelPricePerKilometer(random.nextDouble(10, 30))
+                .withMomentRentPrice(random.nextDouble(100, 300))
+                .withHourRentPrice(random.nextDouble(50, 150))
+                .buildMoto();
     }
 
     private Bike generateBike() {
-        return new Bike(
-                faker.vehicle().model(),
-                random.nextDouble(100, 150),
-                random.nextDouble(5, 15),
-                faker.number().numberBetween(1,2),
-                random.nextDouble(25, 50));
+        return new VehicleBuilder(faker.customVehicle().bikeModel())
+                .withCapasity(random.nextInt(1, 2))
+                .withMaxSpeed(random.nextDouble(20, 55))
+                .withMomentRentPrice(random.nextDouble(50, 100))
+                .withHourRentPrice(random.nextDouble(10, 30))
+                .buildBike();
     }
 
 }

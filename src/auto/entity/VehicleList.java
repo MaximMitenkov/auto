@@ -1,5 +1,8 @@
 package auto.entity;
 
+import auto.entity.abstractEntity.FuelableVehicle;
+import auto.entity.abstractEntity.Vehicle;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 

@@ -1,5 +1,7 @@
 package auto.entity;
 
+import auto.entity.abstractEntity.FuelableVehicle;
+
 public class Motobike extends FuelableVehicle {
     public Motobike(String model,
                     double rentPrice,

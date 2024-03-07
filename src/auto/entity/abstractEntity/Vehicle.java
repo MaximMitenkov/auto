@@ -1,4 +1,4 @@
-package auto.entity;
+package auto.entity.abstractEntity;
 
 import auto.Printable;
 

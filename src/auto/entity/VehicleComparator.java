@@ -1,6 +1,6 @@
 package auto.entity;
 
-import auto.entity.Vehicle;
+import auto.entity.abstractEntity.Vehicle;
 
 import java.util.Comparator;
 

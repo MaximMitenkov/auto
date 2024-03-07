@@ -1,5 +1,6 @@
 package auto.entity;
 
+import auto.entity.abstractEntity.Vehicle;
 import net.datafaker.Faker;
 
 import java.util.Random;

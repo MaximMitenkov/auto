@@ -1,6 +1,4 @@
-package auto.entity;
-
-import auto.entity.Vehicle;
+package auto.entity.abstractEntity;
 
 public abstract class FuelableVehicle extends Vehicle {
 

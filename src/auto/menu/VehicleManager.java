@@ -1,6 +1,6 @@
 package auto.menu;
 
-import auto.entity.Vehicle;
+import auto.entity.abstractEntity.Vehicle;
 import auto.entity.VehicleList;
 
 import java.time.Duration;
